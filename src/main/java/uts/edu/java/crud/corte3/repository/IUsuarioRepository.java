@@ -1,7 +1,5 @@
 package uts.edu.java.crud.corte3.repository;
 
-
-
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +12,4 @@ import uts.edu.java.crud.corte3.model.Usuario;
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
 	Optional<Usuario>findByEmail(String email);
 	
-	public Usuario findByEmail2(String email);
-	
-
 }
