@@ -1,0 +1,20 @@
+package uts.edu.java.crud.corte3.repository;
+
+
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import uts.edu.java.crud.corte3.model.Usuario;
+
+
+@Repository
+public interface IUsuarioRepository extends JpaRepository<Usuario, Integer> {
+	Optional<Usuario>findByEmail(String email);
+	
+	public Usuario findByEmail2(String email);
+	
+
+}
