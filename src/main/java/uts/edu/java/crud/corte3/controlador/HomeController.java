@@ -135,15 +135,14 @@ public class HomeController {
 		return "usuario/carrito";
 	}
 	
-	@GetMapping("/getCarrito")
-	public String getCarro(Model model, HttpSession session){
-		model.addAttribute("carrito", detalles);
+	@GetMapping("/carrito")
+	public String getCarro(Model model, HttpSession session) {
+	    model.addAttribute("carrito", detalles);
 	    model.addAttribute("orden", orden);
-	    
-	    //sesion
-	    model.addAttribute("session",session.getAttribute("idusuario"));
-		return "/usuario/carrito";
+	    model.addAttribute("session", session.getAttribute("idusuario"));
+	    return "/usuario/carrito";
 	}
+
 	
 	@GetMapping("/orden")
 	public String order(Model model, HttpSession session) {
