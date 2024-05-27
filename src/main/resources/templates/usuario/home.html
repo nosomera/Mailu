@@ -5,22 +5,21 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Proyecto de java">
-	<meta name="author" content="Mafe Y pachecotrabajo">
+	<meta name="author" content="Mafe Y pacheco trabajo">
 
 	<title>Malu Tesoros De Lujo</title>
 
-	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
-	
+	<link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{css/heroic-features.css}" rel="stylesheet">
 	
 </head>
 
+
 <body>
-	<!-- Header -->
-	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}">	
-		</div>
-		
-	<div th:include="usuario/template_usuario.html::header-user" th:unless="${session==null}"> </div>
+	<!-- Navigation -->
+	<div th:include="usuario/template_usuario.html::header" th:if="${sesion==null}"></div>
+	
+	<div th:include="usuario/template_usuario.html::header-user" th:unless="${sesion==null}"> </div>
 
 
 	<!-- Page Content -->
@@ -53,8 +52,8 @@
 	<div th:fragment="footer" th:insert="usuario/template_usuario.html::footer"></div>
 
 	<!-- Bootstrap core JavaScript -->
-	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </body>
 
 </html>

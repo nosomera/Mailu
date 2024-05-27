@@ -66,11 +66,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.registro.usuarios</groupId>
-			<artifactId>com.registro.usuarios</artifactId>
-			<version>1.0</version>
-		</dependency>
+		
 	</dependencies>
 
 	<build>

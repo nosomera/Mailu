@@ -1,6 +1,5 @@
 package uts.edu.java.crud.corte3.controlador;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

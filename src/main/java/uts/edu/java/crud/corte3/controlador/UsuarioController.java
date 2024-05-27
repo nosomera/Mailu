@@ -34,7 +34,7 @@ public class UsuarioController {
 	@Autowired
 	private IOrdenService ordenService;
 	
-	BCryptPasswordEncoder passEncode=new BCryptPasswordEncoder();
+	BCryptPasswordEncoder passEncode= new BCryptPasswordEncoder();
 	
 	
 	@GetMapping("/registro")
@@ -46,8 +46,9 @@ public class UsuarioController {
 	public String save(Usuario usuario) {
 		logger.info("Usuario registro: {}",usuario);
 		usuario.setTipo("USER");
-		usuario.setPassword(passEncode.encode(usuario.getPassword()));
+		usuario.setPassword( passEncode.encode(usuario.getPassword()));
 		usuarioService.save(usuario);
+		
 		return "redirect:/";
 	}
 	
@@ -57,26 +58,34 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/acceder")
-	public String acceder(Usuario usuario, HttpSession session) {
-		logger.info("Accesos : {}", usuario);
-		
-		Optional<Usuario> user=usuarioService.findByEmail(usuario.getEmail());
-		//logger.info("Usuario de db: {}", user.get());
-		
-		if (user.isPresent()) {
-			session.setAttribute("idusuario", user.get().getId());
-			if (user.get().getTipo().equals("ADMIN")) {
-				return "redirect:/administrador";
-			}else {
-				return "redirect:/";
-			}
-		}else {
-			logger.info("Usuario no existe");
-		}
-		
-		return "redirect:/";
+	public String acceder(Usuario usuario, HttpSession session, Model model) {
+	    logger.info("Accesos : {}", usuario);
+
+	    Optional<Usuario> user = usuarioService.findByEmail(usuario.getEmail());
+
+	    if (user.isPresent()) {
+	        Usuario usuarioDB = user.get();
+
+	        if (passEncode.matches(usuario.getPassword(), usuarioDB.getPassword())) {
+	            session.setAttribute("idusuario", usuarioDB.getId());
+	            session.setAttribute("usuarioTipo", usuarioDB.getTipo()); // Agregar tipo de usuario a la sesión
+	            if (usuarioDB.getTipo().equals("ADMIN")) {
+	                return "redirect:/administrador";
+	            } else {
+	                return "redirect:/";
+	            }
+	        } else {
+	            logger.info("Contraseña incorrecta");
+	            model.addAttribute("error", "Contraseña incorrecta");
+	            return "usuario/login";
+	        }
+	    } else {
+	        logger.info("Usuario no existe");
+	        model.addAttribute("error", "Usuario no existe");
+	        return "usuario/login";
+	    }
 	}
-	
+
 	@GetMapping("/compras")
 	public String obtenerCompras(HttpSession session, Model model) {
 		model.addAttribute("session",session.getAttribute("idusuario"));
