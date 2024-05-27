@@ -16,6 +16,10 @@
     <div th:include="usuario/template_usuario.html::header" th:if="${session.idusuario == null}"></div>
     <div th:include="usuario/template_usuario.html::header-user" th:if="${session.idusuario != null}"></div>
 
+	<div class="container mt-5">
+		       <div class="alert alert-success" th:if="${mensaje}" th:text="${mensaje}"></div>
+		   </div>
+		
     <!-- Page Content -->
     <div class="container">
         <!-- Jumbotron Header -->
@@ -42,6 +46,8 @@
     </div>
     <!-- /.container -->
 
+	
+	
     <!-- Footer -->
     <div th:fragment="footer" th:insert="usuario/template_usuario.html::footer"></div>
 

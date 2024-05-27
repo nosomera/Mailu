@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import uts.edu.java.crud.corte3.model.Orden;
@@ -111,9 +113,44 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/cerrar")
-	public String cerrarSesion( HttpSession session ) {
+	public String cerrarSesion( HttpSession session, RedirectAttributes redirectAttributes ) {
 		session.removeAttribute("idusuario");
+		redirectAttributes.addFlashAttribute("mensaje", "Sesión cerrada exitosamente");
+
 		return "redirect:/";
 	}
+	
+	@GetMapping("/cambiarClave")
+	public String cambiarClave() {
+		return "usuario/cambiarClave";
+	}
+	
+	 @PostMapping("/actualizarClave")
+	    public String actualizarClave(@RequestParam("claveActual") String claveActual,
+	                                  @RequestParam("nuevaClave") String nuevaClave,
+	                                  @RequestParam("confirmarClave") String confirmarClave,
+	                                  HttpSession session, RedirectAttributes redirectAttributes) {
+	        Integer idUsuario = (Integer) session.getAttribute("idusuario");
+	        if (idUsuario == null) {
+	            return "redirect:/usuario/login";
+	        }
+
+	        Usuario usuario = usuarioService.findById(idUsuario).get();
+
+	        if (!passEncode.matches(claveActual, usuario.getPassword())) {
+	            redirectAttributes.addFlashAttribute("error", "La contraseña actual es incorrecta");
+	            return "redirect:/usuario/cambiarClave";
+	        }
+
+	        if (!nuevaClave.equals(confirmarClave)) {
+	            redirectAttributes.addFlashAttribute("error", "Las nuevas contraseñas no coinciden");
+	            return "redirect:/usuario/cambiarClave";
+	        }
+
+	        usuario.setPassword(passEncode.encode(nuevaClave));
+	        usuarioService.save(usuario);
+	        redirectAttributes.addFlashAttribute("mensaje", "Contraseña actualizada exitosamente");
+	        return "redirect:/usuario/cambiarClave";
+	    }
 	
 }

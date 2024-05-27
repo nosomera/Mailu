@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<title>Registro Malu</title>
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/heroic-features.css}" rel="stylesheet">
+</head>
+
+<body>
+	
+	<!-- Navigation -->
+	<!-- Navigation -->
+	   <div th:include="usuario/template_usuario.html::header" th:if="${session.idusuario == null}"></div>
+	   <div th:include="usuario/template_usuario.html::header-user" th:if="${session.idusuario != null}"></div>
+	   
+	<!-- Page Content -->
+	<div class="container">
+		<div class="card mb-3">
+			<div class="row no-gutters">
+				<div class="col-md-4"></div>
+				<div class="col-md-8">
+					<div class="card-body">
+						<div class="container mt-5">
+							<h2>Cambiar Contraseña</h2>
+
+							<!-- Mostrar mensajes de error o éxito -->
+							<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+							<div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
+							<form th:action="@{/usuario/actualizarClave}" method="post">
+								<div class="form-group">
+									<label for="claveActual">Contraseña Actual</label>
+									<input type="password" class="form-control" id="claveActual" name="claveActual"
+										required>
+								</div>
+								<div class="form-group">
+									<label for="nuevaClave">Nueva Contraseña</label>
+									<input type="password" class="form-control" id="nuevaClave" name="nuevaClave"
+										required>
+								</div>
+								<div class="form-group">
+									<label for="confirmarClave">Confirmar Nueva Contraseña</label>
+									<input type="password" class="form-control" id="confirmarClave"
+										name="confirmarClave" required>
+								</div>
+								<button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- /.container -->
+		<div th:include="usuario/template_usuario.html :: footer"></div>
+		<!-- Bootstrap core JavaScript -->
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		
+</body>
+
+</html>
