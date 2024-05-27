@@ -28,13 +28,21 @@
             <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
             <li class="breadcrumb-item active">Ver Usuarios</li>
         </ol>
+        
         <h2>Usuarios</h2>
+
+        <!-- Mostrar mensajes de error o éxito -->
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Nombre</th>
                     <th scope="col">Email</th>
                     <th scope="col">Dirección</th>
+                    <th scope="col">Tipo de Usuario</th>
+                    <th scope="col">Cambiar Rol</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +50,10 @@
                     <td th:text="${usuario.nombre}"></td>
                     <td th:text="${usuario.email}"></td>
                     <td th:text="${usuario.direccion}"></td>
+                    <td th:text="${usuario.tipo}"></td>
+                    <td>
+                        <a th:href="@{/administrador/cambiarRol/{id}(id=${usuario.id})}" class="btn btn-warning">Cambiar Rol</a>
+                    </td>
                 </tr>
             </tbody>
         </table>

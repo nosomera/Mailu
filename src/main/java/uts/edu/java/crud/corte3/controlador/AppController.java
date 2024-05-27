@@ -1,6 +1,7 @@
 package uts.edu.java.crud.corte3.controlador;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uts.edu.java.crud.corte3.model.Orden;
 import uts.edu.java.crud.corte3.model.Producto;
+import uts.edu.java.crud.corte3.model.Usuario;
 import uts.edu.java.crud.corte3.service.IOrdenService;
 import uts.edu.java.crud.corte3.service.IUsuarioService;
 import uts.edu.java.crud.corte3.service.ProductoService;
@@ -43,7 +47,6 @@ public class AppController {
 	@GetMapping("/usuarios")
 	public String usuario(Model model) {
 		model.addAttribute("usuarios",usuarioService.findAll());
-		
 		return "administrador/usuarios";
 	}
 
@@ -62,4 +65,22 @@ public class AppController {
 
 		return "administrador/detalleorden";
 	}
+	
+	@GetMapping("/cambiarRol/{id}")
+	public String cambiarRol(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+	    Optional<Usuario> usuarioOpt = usuarioService.findById(id);
+
+	    if (usuarioOpt.isPresent()) {
+	        Usuario usuario = usuarioOpt.get();
+	        String nuevoRol = usuario.getTipo().equals("USER") ? "ADMIN" : "USER";
+	        usuario.setTipo(nuevoRol);
+	        usuarioService.save(usuario);
+	        redirectAttributes.addFlashAttribute("mensaje", "Rol de usuario actualizado correctamente");
+	    } else {
+	        redirectAttributes.addFlashAttribute("error", "Usuario no encontrado");
+	    }
+
+	    return "redirect:/administrador/usuarios";
+	}
+	
 }
