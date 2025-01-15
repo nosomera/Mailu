@@ -14,8 +14,9 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <div th:insert="usuario/template_usuario.html::header"></div>
+    <!-- Navigation -->
+    <div th:include="usuario/template_usuario.html::header" th:if="${session.idusuario == null}"></div>
+    <div th:include="usuario/template_usuario.html::header-user" th:if="${session.idusuario != null}"></div>
 
     <!-- Page Content -->
     <div class="container">
